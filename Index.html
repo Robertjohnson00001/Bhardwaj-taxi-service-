@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bhardwaj Taxi Service - Palampur</title>
+    <style>
+        /* CSS styles are now inside the HTML file */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            text-align: center;
+        }
+
+        header {
+            background-color: #007BFF;
+            color: white;
+            padding: 1.5rem 1rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+        }
+        
+        header p {
+            margin: 0.5rem 0 0;
+            font-size: 1.1rem;
+        }
+
+        main {
+            padding: 0 1rem;
+        }
+
+        .action-section {
+            margin-bottom: 2rem;
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .action-section h2 {
+            margin-top: 0;
+            color: #0056b3;
+        }
+
+        .action-button {
+            display: block;
+            width: 90%;
+            max-width: 400px;
+            margin: 1rem auto;
+            padding: 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .call-button {
+            background-color: #28a745; /* Green */
+        }
+        
+        .call-button:hover {
+            background-color: #218838;
+        }
+
+        .whatsapp-button {
+            background-color: #17a2b8; /* Teal */
+        }
+        
+        .whatsapp-button:hover {
+            background-color: #138496;
+        }
+
+        .timer-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .timer-display {
+            font-size: 2.8rem;
+            margin: 0.5rem 0 1rem;
+            color: #007BFF;
+            font-weight: bold;
+        }
+
+        .timer-container p {
+            margin-top: 0;
+            font-size: 1.1rem;
+            color: #555;
+        }
+
+        .timer-controls button {
+            padding: 0.7rem 1.2rem;
+            margin: 0.3rem;
+            border: none;
+            border-radius: 5px;
+            background-color: #6c757d;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+        
+        .timer-controls button:hover {
+            background-color: #5a6268;
+        }
+
+        footer {
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background-color: #343a40;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Bhardwaj Taxi Service</h1>
+        <p>Your Reliable Travel Partner in Palampur</p>
+    </header>
+
+    <main>
+        <section class="action-section">
+            <h2>Direct Call</h2>
+            <a href="tel:+919805212266" class="action-button call-button">Call (+91 98052 12266)</a>
+            <a href="tel:+917018932739" class="action-button call-button">Call (+91 70189 32739)</a>
+        </section>
+
+        <section class="action-section">
+            <h2>Book via WhatsApp</h2>
+            <p>Select your vehicle to start a chat:</p>
+            <a href="https://wa.me/919805212266?text=I%20need%20a%20taxi%20(5%20seater%20Swift)" class="action-button whatsapp-button">Book 5-Seater Swift</a>
+            <a href="https://wa.me/919805212266?text=I%20need%20a%20taxi%20(7%20seater%20Toyota%20Rumion)" class="action-button whatsapp-button">Book 7-Seater Toyota Rumion</a>
+        </section>
+
+        <section class="action-section">
+            <h2>Timers</h2>
+            <div class="timer-container">
+                <p><strong>Trip Duration</strong></p>
+                <div id="trip-timer" class="timer-display">00:00:00</div>
+                <div class="timer-controls">
+                    <button id="start-trip">Start</button>
+                    <button id="pause-trip">Pause</button>
+                    <button id="reset-trip">Reset</button>
+                </div>
+            </div>
+            <hr>
+            <div class="timer-container">
+                <p><strong>Waiting Time</strong></p>
+                <div id="waiting-timer" class="timer-display">00:00:00</div>
+                <div class="timer-controls">
+                    <button id="start-waiting">Start</button>
+                    <button id="pause-waiting">Pause</button>
+                    <button id="reset-waiting">Reset</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Bhardwaj Taxi Service, Palampur. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // JavaScript is now inside the HTML file
+        function createTimer(timerId, startBtnId, pauseBtnId, resetBtnId) {
+            const timerElement = document.getElementById(timerId);
+            const startBtn = document.getElementById(startBtnId);
+            const pauseBtn = document.getElementById(pauseBtnId);
+            const resetBtn = document.getElementById(resetBtnId);
+
+            let seconds = 0;
+            let interval = null;
+
+            function updateTimer() {
+                seconds++;
+                let hrs = Math.floor(seconds / 3600);
+                let mins = Math.floor((seconds - (hrs * 3600)) / 60);
+                let secs = seconds % 60;
+
+                if (hrs < 10) hrs = '0' + hrs;
+                if (mins < 10) mins = '0' + mins;
+                if (secs < 10) secs = '0' + secs;
+
+                timerElement.innerText = `${hrs}:${mins}:${secs}`;
+            }
+
+            startBtn.addEventListener('click', () => {
+                if (interval) {
+                    return;
+                }
+                interval = setInterval(updateTimer, 1000);
+            });
+
+            pauseBtn.addEventListener('click', () => {
+                clearInterval(interval);
+                interval = null;
+            });
+
+            resetBtn.addEventListener('click', () => {
+                clearInterval(interval);
+                interval = null;
+                seconds = 0;
+                timerElement.innerText = '00:00:00';
+            });
+        }
+
+        createTimer('trip-timer', 'start-trip', 'pause-trip', 'reset-trip');
+        createTimer('waiting-timer', 'start-waiting', 'pause-waiting', 'reset-waiting');
+    </script>
+</body>
+</html>
